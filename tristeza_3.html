@@ -11,8 +11,10 @@
 
     <style>
         html, body {
-            margin: 0; padding: 0;
-            width: 100%; height: 100%;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
         }
 
@@ -25,64 +27,134 @@
         }
 
         @keyframes cloudyWaves {
-            0%{background-position:0% 0%;}
-            50%{background-position:100% 100%;}
-            100%{background-position:0% 0%;}
+            0% {
+                background-position: 0% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
         }
 
-        #rain-canvas, .lightning { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; }
+        #rain-canvas, .lightning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
 
-        .lightning { background: rgba(255,255,255,0.8); opacity:0; z-index:5; }
+        .lightning {
+            background: rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            z-index: 5;
+        }
 
         .raindrop {
-            position:absolute;
-            background: linear-gradient(to bottom, rgba(174,194,224,0.6), rgba(174,194,224,0.2));
-            width:2px; border-radius:50%;
+            position: absolute;
+            background: linear-gradient(to bottom, rgba(174, 194, 224, 0.6), rgba(174, 194, 224, 0.2));
+            width: 2px;
+            border-radius: 50%;
             animation: fall linear infinite;
         }
 
         @keyframes fall {
-            to { transform:translateY(100vh); opacity:0; }
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
         }
 
         .ripple {
-            position:absolute;
-            border:2px solid rgba(174,194,224,0.4);
-            border-radius:50%;
-            pointer-events:none;
-            animation:rippleEffect 1s ease-out forwards;
+            position: absolute;
+            border: 2px solid rgba(174, 194, 224, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: rippleEffect 1s ease-out forwards;
         }
 
         @keyframes rippleEffect {
-            0%{width:0;height:0;opacity:1;}
-            100%{width:40px;height:40px;opacity:0;}
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 40px;
+                height: 40px;
+                opacity: 0;
+            }
         }
 
         .bolt {
-            position:absolute;
-            width:3px;
-            background:linear-gradient(to bottom,rgba(255,255,255,0.9),rgba(200,220,255,0.6));
-            opacity:0; pointer-events:none; z-index:6;
+            position: absolute;
+            width: 3px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(200, 220, 255, 0.6));
+            opacity: 0;
+            pointer-events: none;
+            z-index: 6;
         }
 
-        .bolt.strike { animation: boltStrike .3s ease-out; }
+        .bolt.strike {
+            animation: boltStrike .3s ease-out;
+        }
 
-        @keyframes boltStrike { 0%,100%{opacity:0;} 50%{opacity:1;} }
+        @keyframes boltStrike {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
 
-        .lightning.flash { animation: lightningFlash .4s ease-out; }
+        .lightning.flash {
+            animation: lightningFlash .4s ease-out;
+        }
 
         @keyframes lightningFlash {
-            0%,20%,40%,100%{opacity:0;}
-            10%,30%{opacity:.8;}
+            0%, 20%, 40%, 100% {
+                opacity: 0;
+            }
+            10%, 30% {
+                opacity: .8;
+            }
         }
 
         .contenido {
-            position:relative;
-            z-index:10;
-            background:rgba(15,23,42,.65);
-            padding:2rem;
-            margin-top:4rem;
-            border-radius:1rem;
+            position: relative;
+            z-index: 10;
+            background: rgba(15, 23, 42, .65);
+            padding: 2rem;
+            margin-top: 4rem;
+            border-radius: 1rem;
+        }
+
+        /* Botón de música fijo abajo */
+        .music-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(226, 232, 240, 0.4);
+            border-radius: 999px;
+            padding: 0.6rem 1.4rem;
+            color: #EDF2F7;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            backdrop-filter: blur(6px);
+        }
+
+        .music-toggle:hover {
+            background: rgba(30, 41, 59, 0.95);
         }
     </style>
 </head>
@@ -92,8 +164,8 @@
 <div id="rain-canvas"></div>
 <div class="lightning" id="lightning"></div>
 
-<!-- Howler.js CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+<!-- Tone.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/15.3.5/Tone.js"></script>
 
 <!-- Contenido -->
 <div class="container">
@@ -101,53 +173,18 @@
         <div class="col-md-8 offset-md-2">
             <div class="contenido">
                 <h1>Tristeza</h1>
-                <p>La tristeza es una emoción que nos ayuda a procesar pérdidas y dificultades.</p>
-                <button class="boton-volver" onclick="window.location.href='alegria_2.html'">Página anterior</button>
-                <button class="boton-siguiente" onclick="window.location.href='ira_4.html'">Siguiente página →</button>
+                <p>Como la lluvia del alma, limpiando heridas silenciosas en el corazón.</p>
+                <button class="boton-volver" onclick="window.location.href='alegria_2.html'">Emocion anterior</button>
+                <button class="boton-siguiente" onclick="window.location.href='ira_4.html'">Siguiente emocion →</button>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    // ------------------------
-    // 🎵 AUDIO CON HOWLER
-    // ------------------------
-    // Coloca un archivo pequeño, por ejemplo "tristeza.mp3",
-    // dentro de una carpeta "audio" en tu proyecto.
-    let bgMusic = new Howl({
-        src: ["audio/tristeza.mp3"],   // archivo local → carga rápida y confiable
-        loop: true,
-        volume: 0.4,
-        preload: 'auto',              // lo carga apenas se pueda
-        html5: true                   // usa audio HTML5 para mejor compatibilidad
-    });
-
-    let clickSound = new Howl({
-        src: ["https://assets.codepen.io/21542/sound-rise-01.mp3"],
-        volume: 0.7
-    });
-
-    let started = false;
-
-    function startMusic() {
-        if (!started) {
-            bgMusic.play();
-            started = true;
-        }
-    }
-
-    // activa música apenas el usuario toque la pantalla o clic
-    document.addEventListener("click", startMusic, { once: true });
-    document.addEventListener("touchstart", startMusic, { once: true });
-
-    // sonido clic botones
-    document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".boton-siguiente, .boton-volver").forEach(btn => {
-            btn.addEventListener("click", () => clickSound.play());
-        });
-    });
-</script>
+<!-- 🎵 Botón de música triste (Tone.js) -->
+<button id="music-toggle" class="music-toggle" type="button">
+    🎵 Reproducir música triste
+</button>
 
 <!-- 🌧️ lluvia + rayos -->
 <script>
@@ -156,85 +193,188 @@
         const lightning = document.getElementById('lightning');
         if (!canvas || !lightning) return;
 
-        const raindrops=[];
-        let numDrops=80, darkness=0;
+        const raindrops = [];
+        let numDrops = 80, darkness = 0;
 
         class Raindrop {
             constructor() {
-                this.el=document.createElement('div');
-                this.el.className='raindrop';
+                this.el = document.createElement('div');
+                this.el.className = 'raindrop';
                 this.reset();
                 canvas.appendChild(this.el);
             }
-            reset() {
-                this.x=Math.random()*innerWidth;
-                this.y=-Math.random()*innerHeight;
-                this.length=Math.random()*20+15;
-                this.speed=Math.random()*2+3;
-                this.opacity=Math.random()*0.3+0.3;
 
-                this.el.style.left=this.x+"px";
-                this.el.style.top=this.y+"px";
-                this.el.style.height=this.length+"px";
-                this.el.style.opacity=this.opacity;
-                this.el.style.animationDuration=this.speed+"s";
+            reset() {
+                this.x = Math.random() * innerWidth;
+                this.y = -Math.random() * innerHeight;
+                this.length = Math.random() * 20 + 15;
+                this.speed = Math.random() * 2 + 3;
+                this.opacity = Math.random() * 0.3 + 0.3;
+
+                this.el.style.left = this.x + "px";
+                this.el.style.top = this.y + "px";
+                this.el.style.height = this.length + "px";
+                this.el.style.opacity = this.opacity;
+                this.el.style.animationDuration = this.speed + "s";
             }
+
             update() {
-                const t=this.el.style.transform;
-                if(t){
-                    const m=t.match(/translateY\(([^)]+)px\)/);
-                    const v=m?parseFloat(m[1]):0;
-                    if(v>=innerHeight){
+                const t = this.el.style.transform;
+                if (t) {
+                    const m = t.match(/translateY\(([^)]+)px\)/);
+                    const v = m ? parseFloat(m[1]) : 0;
+                    if (v >= innerHeight) {
                         this.reset();
                     }
                 }
             }
         }
 
-        for(let i=0;i<numDrops;i++){
-            setTimeout(()=>raindrops.push(new Raindrop()), i*30);
+        for (let i = 0; i < numDrops; i++) {
+            setTimeout(() => raindrops.push(new Raindrop()), i * 30);
         }
 
-        function animate(){
-            raindrops.forEach(d=>d.update());
+        function animate() {
+            raindrops.forEach(d => d.update());
             requestAnimationFrame(animate);
         }
+
         animate();
 
-        function createBolt(){
-            const bolt=document.createElement('div');
-            bolt.className='bolt';
-            const x=Math.random()*innerWidth;
-            const h=Math.random()*300+200;
-            bolt.style.left=x+"px";
-            bolt.style.height=h+"px";
-            bolt.style.top="0px";
+        function createBolt() {
+            const bolt = document.createElement('div');
+            bolt.className = 'bolt';
+            const x = Math.random() * innerWidth;
+            const h = Math.random() * 300 + 200;
+            bolt.style.left = x + "px";
+            bolt.style.height = h + "px";
+            bolt.style.top = "0px";
             bolt.classList.add("strike");
             document.body.appendChild(bolt);
-            setTimeout(()=>bolt.remove(),300);
+            setTimeout(() => bolt.remove(), 300);
         }
 
-        function lightningFlash(){
+        function lightningFlash() {
             lightning.classList.add("flash");
-            setTimeout(()=>lightning.classList.remove("flash"),400);
+            setTimeout(() => lightning.classList.remove("flash"), 400);
 
-            const n=Math.floor(Math.random()*3)+1;
-            for(let i=0;i<n;i++){
-                setTimeout(()=>createBolt(), i*50);
+            const n = Math.floor(Math.random() * 3) + 1;
+            for (let i = 0; i < n; i++) {
+                setTimeout(() => createBolt(), i * 50);
             }
 
-            const next=Math.random()*5000+3000;
+            const next = Math.random() * 5000 + 3000;
             setTimeout(lightningFlash, next);
         }
 
         // activar rayos y aumentar lluvia
-        document.body.addEventListener("click", ()=>{
+        document.body.addEventListener("click", () => {
             lightningFlash();
-            darkness=Math.min(darkness+0.1,0.7);
-            document.body.style.filter=`brightness(${1-darkness})`;
+            darkness = Math.min(darkness + 0.1, 0.7);
+            document.body.style.filter = `brightness(${1 - darkness})`;
         });
     });
 </script>
+
+<!-- 🎼 Música triste tipo piano con Tone.js -->
+<!-- 🎼 Música triste tipo piano con Tone.js (versión más sad y nada perturbadora) -->
+<!-- 🎼 Música MUY triste tipo piano con Tone.js -->
+<script>
+    let isPlaying = false;
+
+    // Tempo melancólico
+    Tone.Transport.bpm.value = 68;
+
+    // Volumen global un poco bajo para evitar saturación
+    Tone.getDestination().volume.value = -8;
+
+    // Reverb suave, ambiente íntimo
+    const reverb = new Tone.Reverb({
+        decay: 4.5,
+        wet: 0.3
+    }).toDestination();
+
+    // Piano sintético suave
+    const piano = new Tone.PolySynth(Tone.Synth, {
+        oscillator: { type: "sine" },
+        envelope: {
+            attack: 0.02,
+            decay: 0.4,
+            sustain: 0.35,
+            release: 2
+        }
+    }).connect(reverb);
+
+    piano.volume.value = -4;
+
+    // Progresión muy triste: Am – Em – F – C – Dm – G – Em – Am
+    const chords = [
+        ["A4","C5","E5"],   // Am
+        ["E4","G4","B4"],   // Em
+        ["F4","A4","C5"],   // F
+        ["C4","E4","G4"],   // C
+        ["D4","F4","A4"],   // Dm
+        ["G4","B4","D5"],   // G
+        ["E4","G4","B4"],   // Em
+        ["A4","C5","E5"]    // Am
+    ];
+
+    // Melodía más larga y muy emotiva (null = silencio)
+    const melodyNotes = [
+        // Frase 1
+        "C5","E5","A5","G5","E5", null,
+        "B4","D5","G5","F5","D5", null,
+        // Frase 2
+        "A4","C5","E5","F5","E5", null,
+        "G4","B4","D5","E5","D5", null,
+        // Frase 3 (sube un poco más)
+        "E5","G5","A5","G5","E5", null,
+        "D5","F5","G5","F5","D5", null,
+        // Frase 4 (resuelve hacia abajo)
+        "C5","E5","A5","G5","E5", null,
+        "B4","D5","C5","A4","C5", null
+    ];
+
+    let chordIndex = 0;
+
+    // Acompañamiento de acordes
+    const chordLoop = new Tone.Loop((time) => {
+        const chord = chords[chordIndex % chords.length];
+        piano.triggerAttackRelease(chord, "2n", time);
+        chordIndex++;
+    }, "2n");
+
+    // Melodía principal
+    const melodySeq = new Tone.Sequence((time, note) => {
+        if (note) {
+            piano.triggerAttackRelease(note, "8n", time);
+        }
+    }, melodyNotes, "8n");
+
+    const btn = document.getElementById("music-toggle");
+
+    btn.addEventListener("click", async () => {
+        await Tone.start(); // necesario en navegadores modernos
+
+        if (!isPlaying) {
+            chordIndex = 0;
+            chordLoop.start(0);
+            melodySeq.start("1m"); // la melodía entra después de 1 compás
+            Tone.Transport.start();
+            isPlaying = true;
+            btn.textContent = "⏸️ Pausar música triste";
+        } else {
+            Tone.Transport.stop();
+            chordLoop.stop();
+            melodySeq.stop();
+            piano.releaseAll();
+            isPlaying = false;
+            btn.textContent = "🎵 Reproducir música triste";
+        }
+    });
+</script>
+
+
 
 </body>
 </html>

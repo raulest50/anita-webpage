@@ -12,6 +12,32 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
     <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        /* Solo estilos del botón de música, sin tocar lo demás */
+        .music-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            background: rgba(15,23,42,0.9);
+            border: 1px solid rgba(226,232,240,0.4);
+            border-radius: 999px;
+            padding: 0.6rem 1.4rem;
+            color: #EDF2F7;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            backdrop-filter: blur(6px);
+        }
+
+        .music-toggle:hover {
+            background: rgba(30,41,59,0.95);
+        }
+    </style>
 </head>
 
 <body class="index">
@@ -21,10 +47,17 @@
             <div class="vaso">
                 <div class="agua"></div>
             </div>
+
+            <!-- Botón original -->
             <button class="boton-siguiente" onclick="siguientePagina()">Siguiente página →</button>
         </div>
     </div>
 </div>
+
+<!-- 🎵 Botón para reproducir la melodía triste (Tone.js), fijo al final -->
+<button class="music-toggle" id="music-toggle" type="button">
+    🎵 Reproducir música
+</button>
 
 <!-- Bootstrap JS Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -34,6 +67,96 @@
 
 <!-- Toastify JS -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<!-- Tone.js para la melodía de piano triste -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/15.3.5/Tone.js"></script>
+
+<!-- 🎼 Música triste tipo piano con Tone.js -->
+<script>
+    let isPlaying = false;
+
+    // Tempo un poco más rápido y natural
+    Tone.Transport.bpm.value = 72;
+
+    // Un poco menos de volumen global para evitar saturación
+    Tone.getDestination().volume.value = -6;
+
+    // Reverb suave (menos cavernosa)
+    const reverb = new Tone.Reverb({
+        decay: 4,
+        wet: 0.28
+    }).toDestination();
+
+    // "Piano" sintético: ataque rápido, decay corto, algo brillante
+    const piano = new Tone.PolySynth(Tone.Synth, {
+        oscillator: { type: "amsine" }, // suave pero con cuerpo
+        envelope: {
+            attack: 0.01,
+            decay: 0.35,
+            sustain: 0.25,
+            release: 1.6
+        }
+    }).connect(reverb);
+
+    // Un pelín menos de volumen en el instrumento
+    piano.volume.value = -4;
+
+    // Progresión principal en registro medio-alto (más brillante, menos grave)
+    const chords = [
+        ["A4", "C5", "E5"],  // Am
+        ["F4", "A4", "C5"],  // F
+        ["D4", "F4", "A4"],  // Dm
+        ["E4", "G4", "B4"]   // Em
+    ];
+
+    // Melodía (notas sueltas por encima, más larga y triste)
+    const melodyNotes = [
+        "E5","C5","A4","C5",  null,
+        "E5","D5","B4","G4",  null,
+        "A4","C5","E5","C5",  null,
+        "D5","C5","B4","G4",  null,
+        "E5","F5","E5","D5",  null,
+        "C5","B4","A4","E5",  null
+    ];
+
+    let chordIndex = 0;
+
+    // Loop de acordes (acompañamiento)
+    const chordLoop = new Tone.Loop((time) => {
+        const chord = chords[chordIndex % chords.length];
+        piano.triggerAttackRelease(chord, "2n", time);
+        chordIndex++;
+    }, "2n");
+
+    // Secuencia de melodía (notas por encima de los acordes)
+    const melodySeq = new Tone.Sequence((time, note) => {
+        if (note) {
+            piano.triggerAttackRelease(note, "8n", time);
+        }
+    }, melodyNotes, "8n");
+
+    const btn = document.getElementById("music-toggle");
+
+    btn.addEventListener("click", async () => {
+        await Tone.start(); // necesario para desbloquear audio en navegadores
+
+        if (!isPlaying) {
+            chordIndex = 0;
+            chordLoop.start(0);
+            melodySeq.start("1m"); // la melodía entra después de un compás
+            Tone.Transport.start();
+            isPlaying = true;
+            btn.textContent = "⏸️ Pausar música";
+        } else {
+            Tone.Transport.stop();
+            chordLoop.stop();
+            melodySeq.stop();
+            piano.releaseAll();
+            isPlaying = false;
+            btn.textContent = "🎵 Reproducir música"
+        }
+    });
+</script>
 
 <!-- Tu script principal -->
 <script src="js/main.js"></script>

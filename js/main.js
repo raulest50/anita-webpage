@@ -4,6 +4,18 @@ const agua = document.querySelector('.agua');
 const boton = document.querySelector('.boton-siguiente');
 let nivelAgua = 0;
 
+// Registrar sonidos
+createjs.Sound.alternateExtensions = ["mp3"];
+createjs.Sound.registerSound("https://assets.codepen.io/21542/howler-demo-bg-music.mp3", "rain"); // URL de ejemplo, reemplazar con un sonido de lluvia real
+createjs.Sound.registerSound("https://assets.codepen.io/21542/sound-rise-01.mp3", "drop"); // URL de ejemplo, reemplazar con un sonido de gota real
+createjs.Sound.registerSound("https://assets.codepen.io/21542/sound-rise-01.mp3", "success"); // URL de ejemplo, reemplazar con un sonido de éxito
+
+// Iniciar el sonido de lluvia automáticamente cuando la página carga
+window.addEventListener('DOMContentLoaded', () => {
+    // Reproducir sonido de lluvia en bucle
+    createjs.Sound.play("rain", {loop: -1, volume: 0.3});
+});
+
 // Mover el vaso siguiendo el cursor (eje X)
 document.addEventListener('mousemove', (e) => {
     const x = e.clientX;
@@ -49,8 +61,13 @@ function crearGota() {
             agua.style.height = nivelAgua + '%';
             agua.style.background = `linear-gradient(to top, ${gota.style.backgroundColor}, rgba(255,255,255,0.2))`;
 
+            // Reproducir sonido de gota
+            createjs.Sound.play("drop", {volume: 0.5});
+
             if (nivelAgua >= 100) {
                 boton.style.display = 'block';
+                // Reproducir sonido de éxito
+                createjs.Sound.play("success", {volume: 0.7});
             }
         }
 

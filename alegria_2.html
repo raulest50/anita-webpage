@@ -7,33 +7,135 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        /* Estela arcoíris del cursor */
+        .cursor-trail {
+            position: fixed;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            pointer-events: none;
+            left: 0;
+            top: 0;
+            transform: translate(-50%, -50%);
+            background: hsl(var(--hue, 0), 90%, 60%);
+            box-shadow:
+                    0 0 8px hsla(var(--hue, 0), 95%, 70%, 0.9),
+                    0 0 16px hsla(var(--hue, 0), 90%, 60%, 0.7);
+            opacity: 0.9;
+            animation: trailFade 0.6s ease-out forwards;
+            z-index: 9999;
+        }
+
+        @keyframes trailFade {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+        }
+
+        /* Carita feliz al hacer click */
+        .happy-face {
+            position: fixed;
+            pointer-events: none;
+            font-size: 2.5rem;
+            left: 0;
+            top: 0;
+            transform: translate(-50%, -50%) scale(0.3);
+            opacity: 0;
+            z-index: 10000;
+            animation: happyPop 0.8s ease-out forwards;
+        }
+
+        @keyframes happyPop {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.2) translateY(0);
+            }
+            40% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1) translateY(-10px);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8) translateY(-25px);
+            }
+        }
+    </style>
 </head>
 <body class="alegria">
-    <div id="particles-canvas"></div>
+<div id="particles-canvas"></div>
 
-    <div class="content-wrapper">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 offset-md-2">
-                    <div class="contenido">
-                        <h1>¡Alegría!</h1>
-                        <p>La alegría es una emoción que nos llena de energía y optimismo.</p>
-                        <div class="row">
-                            <div class="col-12">
-                                <button class="boton-siguiente" onclick="window.location.href='tristeza_3.html'">Siguiente página →</button>
-                            </div>
+<div class="content-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="contenido">
+                    <h1>¡Alegría!</h1>
+                    <p>La alegría es una emoción que nos llena de energía y optimismo.</p>
+                    <div class="row">
+                        <div class="col-12">
+                            <button class="boton-siguiente" onclick="window.location.href='tristeza_3.html'">
+                                Siguiente página →
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- SoundJS for sound effects -->
-    <script src="https://code.createjs.com/1.0.0/soundjs.min.js"></script>
-    <script src="js/alegria-particulas.js"></script>
-    <script src="js/alegria.js"></script>
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- SoundJS for sound effects -->
+<script src="https://code.createjs.com/1.0.0/soundjs.min.js"></script>
+<!-- Tus scripts existentes -->
+<script src="js/alegria-particulas.js"></script>
+<script src="js/alegria.js"></script>
+
+<!-- Efecto arcoíris del mouse + carita feliz al hacer click -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let hue = 0;
+
+        // Estela arcoíris
+        document.addEventListener('mousemove', (event) => {
+            const dot = document.createElement('div');
+            dot.className = 'cursor-trail';
+            dot.style.left = event.clientX + 'px';
+            dot.style.top = event.clientY + 'px';
+
+            hue = (hue + 12) % 360;
+            dot.style.setProperty('--hue', hue);
+
+            document.body.appendChild(dot);
+
+            dot.addEventListener('animationend', () => {
+                dot.remove();
+            });
+        });
+
+        // Carita feliz al hacer click
+        document.addEventListener('click', (event) => {
+            const face = document.createElement('div');
+            face.className = 'happy-face';
+            face.textContent = '😊';
+            face.style.left = event.clientX + 'px';
+            face.style.top = event.clientY + 'px';
+
+            document.body.appendChild(face);
+
+            face.addEventListener('animationend', () => {
+                face.remove();
+            });
+        });
+    });
+</script>
 </body>
 </html>

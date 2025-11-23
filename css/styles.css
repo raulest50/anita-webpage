@@ -116,14 +116,16 @@ body {
 
 /* Estilos para el contenido de las páginas de emociones */
 .contenido {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    z-index: 10;
+    padding: 2rem;
+    border-radius: 1rem;
+    background: none !important;
+    box-shadow: none !important;
+    color: #ffffff;
     text-align: center;
-    color: white;
-    z-index: 3;
 }
+
 
 /* Estilos generales para títulos y párrafos */
 h1 {

@@ -1,3 +1,4 @@
+/* Estilos generales */
 body {
     margin: 0;
     overflow: hidden;
@@ -6,6 +7,7 @@ body {
     position: relative;
 }
 
+/* Estilos para la animación del vaso */
 .vaso {
     position: absolute;
     bottom: 40px;
@@ -28,7 +30,7 @@ body {
     width: 100%;
     height: 0%;
     background: linear-gradient(to top, rgba(255, 255, 255, 0.4), rgba(255,255,255,0.2));
-    transition: height 0.5s ease;
+    transition: height 0.2s ease;
     border-radius: 0 0 100px 100px;
 }
 
@@ -42,7 +44,60 @@ body {
     z-index: 3;
 }
 
+/* Estilos para el contenido de las páginas de emociones */
+.contenido {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+}
+
+/* Estilos generales para títulos y párrafos */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+
+p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+/* Estilos para botones */
 .boton-siguiente {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #0a0a0f;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.boton-volver {
+    padding: 10px 20px;
+    background: #DDDDDD;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #0a0a0f;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 10px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.boton-volver:hover {
+    background: #BBBBBB;
+    transform: scale(1.1);
+}
+
+/* Estilos específicos para la página inicial */
+.index .boton-siguiente {
     display: none;
     position: absolute;
     top: 50%;
@@ -50,18 +105,80 @@ body {
     transform: translate(-50%, -50%);
     padding: 15px 30px;
     background: #00FFFF;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    color: #0a0a0f;
-    cursor: pointer;
-    font-weight: bold;
     box-shadow: 0 0 20px rgba(0,255,255,0.6);
-    transition: background 0.3s ease, transform 0.3s ease;
     z-index: 4;
 }
 
-.boton-siguiente:hover {
+.index .boton-siguiente:hover {
     background: #1E90FF;
     transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Estilos específicos para cada emoción */
+/* Alegría */
+.alegria h1 {
+    color: #FFD700; /* Color dorado para alegría */
+    text-shadow: 0 0 10px rgba(255,215,0,0.6);
+}
+
+.alegria .boton-siguiente {
+    display: block;
+    background: #FFD700;
+    box-shadow: 0 0 20px rgba(255,215,0,0.6);
+}
+
+.alegria .boton-siguiente:hover {
+    background: #FFA500;
+    transform: scale(1.1);
+}
+
+/* Tristeza */
+.tristeza h1 {
+    color: #1E90FF; /* Color azul para tristeza */
+    text-shadow: 0 0 10px rgba(30,144,255,0.6);
+}
+
+.tristeza .boton-siguiente {
+    display: block;
+    background: #1E90FF;
+    box-shadow: 0 0 20px rgba(30,144,255,0.6);
+}
+
+.tristeza .boton-siguiente:hover {
+    background: #0000CD;
+    transform: scale(1.1);
+}
+
+/* Ira */
+.ira h1 {
+    color: #FF4500; /* Color rojo para ira */
+    text-shadow: 0 0 10px rgba(255,69,0,0.6);
+}
+
+.ira .boton-siguiente {
+    display: block;
+    background: #FF4500;
+    box-shadow: 0 0 20px rgba(255,69,0,0.6);
+}
+
+.ira .boton-siguiente:hover {
+    background: #B22222;
+    transform: scale(1.1);
+}
+
+/* Miedo */
+.miedo h1 {
+    color: #9932CC; /* Color púrpura para miedo */
+    text-shadow: 0 0 10px rgba(153,50,204,0.6);
+}
+
+.miedo .boton-siguiente {
+    display: block;
+    background: #9932CC;
+    box-shadow: 0 0 20px rgba(153,50,204,0.6);
+}
+
+.miedo .boton-siguiente:hover {
+    background: #4B0082;
+    transform: scale(1.1);
 }

@@ -45,7 +45,7 @@ function crearGota() {
             gotaRect.bottom > vasoRect.top &&
             gotaRect.bottom < vasoRect.bottom + 20
         ) {
-            nivelAgua = Math.min(nivelAgua + 2, 100);
+            nivelAgua = Math.min(nivelAgua + 5, 100);
             agua.style.height = nivelAgua + '%';
             agua.style.background = `linear-gradient(to top, ${gota.style.backgroundColor}, rgba(255,255,255,0.2))`;
 
@@ -59,7 +59,7 @@ function crearGota() {
 }
 
 // Generar gotas continuamente
-setInterval(crearGota, 200);
+setInterval(crearGota, 100);
 
 // Cambiar de página
 function siguientePagina() {

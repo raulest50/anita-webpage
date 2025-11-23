@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ira</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .contenido {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #FF4500; /* Color rojo para ira */
+            text-shadow: 0 0 10px rgba(255,69,0,0.6);
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .boton-siguiente {
+            display: block;
+            padding: 10px 20px;
+            background: #FF4500;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #0a0a0f;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(255,69,0,0.6);
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .boton-siguiente:hover {
+            background: #B22222;
+            transform: scale(1.1);
+        }
+
+        .boton-volver {
+            padding: 10px 20px;
+            background: #DDDDDD;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #0a0a0f;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 10px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .boton-volver:hover {
+            background: #BBBBBB;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="contenido">
+        <h1>Ira</h1>
+        <p>La ira es una emoción que nos alerta sobre injusticias y nos da energía para defendernos.</p>
+        <div>
+            <button class="boton-volver" onclick="window.location.href='tristeza_3.html'">Página anterior</button>
+            <button class="boton-siguiente" onclick="window.location.href='miedo_5.html'">Siguiente página →</button>
+        </div>
+    </div>
+</body>
+</html>

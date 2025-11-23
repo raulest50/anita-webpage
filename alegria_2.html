@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alegría</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .contenido {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #FFD700; /* Color dorado para alegría */
+            text-shadow: 0 0 10px rgba(255,215,0,0.6);
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .boton-siguiente {
+            display: block;
+            padding: 10px 20px;
+            background: #FFD700;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #0a0a0f;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(255,215,0,0.6);
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .boton-siguiente:hover {
+            background: #FFA500;
+            transform: scale(1.1);
+        }
+
+        .boton-volver {
+            padding: 10px 20px;
+            background: #DDDDDD;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #0a0a0f;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 10px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .boton-volver:hover {
+            background: #BBBBBB;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="contenido">
+        <h1>¡Alegría!</h1>
+        <p>La alegría es una emoción que nos llena de energía y optimismo.</p>
+        <div>
+
+            <button class="boton-siguiente" onclick="window.location.href='tristeza_3.html'">Siguiente página →</button>
+        </div>
+    </div>
+</body>
+</html>

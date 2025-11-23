@@ -7,29 +7,332 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Estilos específicos para la lluvia y los rayos -->
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Para que la lluvia no genere barras de scroll */
+        }
+
+        body.tristeza {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(180deg, #4A5568, #2D3748, #1A202C, #718096);
+            background-size: 400% 400%;
+            animation: cloudyWaves 12s ease infinite;
+            transition: filter 0.5s ease;
+            color: #EDF2F7;
+        }
+
+        @keyframes cloudyWaves {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        /* Capas de lluvia y rayos */
+        #rain-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .lightning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Gotas de lluvia */
+        .raindrop {
+            position: absolute;
+            background: linear-gradient(to bottom, rgba(174, 194, 224, 0.6), rgba(174, 194, 224, 0.2));
+            width: 2px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Ondas al caer la gota */
+        .ripple {
+            position: absolute;
+            border: 2px solid rgba(174, 194, 224, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: rippleEffect 1s ease-out forwards;
+        }
+
+        @keyframes rippleEffect {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 40px;
+                height: 40px;
+                opacity: 0;
+            }
+        }
+
+        /* Rayo principal */
+        .bolt {
+            position: absolute;
+            width: 3px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(200, 220, 255, 0.6));
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(150, 180, 255, 0.5);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 6;
+        }
+
+        .bolt.strike {
+            animation: boltStrike 0.3s ease-out;
+        }
+
+        @keyframes boltStrike {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .lightning.flash {
+            animation: lightningFlash 0.4s ease-out;
+        }
+
+        @keyframes lightningFlash {
+            0%, 20%, 40%, 100% {
+                opacity: 0;
+            }
+            10%, 30% {
+                opacity: 0.8;
+            }
+        }
+
+        /* Contenido por encima de la lluvia */
+        .contenido {
+            position: relative;
+            z-index: 10;
+            background: rgba(15, 23, 42, 0.65);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            margin-top: 4rem;
+        }
+
+        .contenido h1,
+        .contenido p {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .boton-siguiente,
+        .boton-volver {
+            position: relative;
+            z-index: 11; /* por si acaso, encima de todo */
+        }
+    </style>
 </head>
 <body class="tristeza">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div class="contenido">
-                    <h1>Tristeza</h1>
-                    <p>La tristeza es una emoción que nos ayuda a procesar pérdidas y dificultades.</p>
-                    <div class="row">
-                        <div class="col-12">
-                            <button class="boton-volver" onclick="window.location.href='alegria_2.html'">Página anterior</button>
-                            <button class="boton-siguiente" onclick="window.location.href='ira_4.html'">Siguiente página →</button>
-                        </div>
+<!-- Capas de lluvia y rayos -->
+<div id="rain-canvas"></div>
+<div class="lightning" id="lightning"></div>
+
+<!-- Contenido original con Bootstrap -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="contenido">
+                <h1>Tristeza</h1>
+                <p>La tristeza es una emoción que nos ayuda a procesar pérdidas y dificultades.</p>
+                <div class="row">
+                    <div class="col-12">
+                        <button class="boton-volver" onclick="window.location.href='alegria_2.html'">Página anterior</button>
+                        <button class="boton-siguiente" onclick="window.location.href='ira_4.html'">Siguiente página →</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- SoundJS for sound effects -->
-    <script src="https://code.createjs.com/1.0.0/soundjs.min.js"></script>
-    <script src="js/tristeza.js"></script>
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- SoundJS for sound effects -->
+<script src="https://code.createjs.com/1.0.0/soundjs.min.js"></script>
+<!-- Tu script de sonidos y clics en botones -->
+<script src="js/tristeza.js"></script>
+
+<!-- Script del efecto de lluvia + rayos -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const canvas = document.getElementById('rain-canvas');
+        const lightning = document.getElementById('lightning');
+
+        if (!canvas || !lightning) return;
+
+        const raindrops = [];
+        let numDrops = 80;
+        let darkness = 0;
+
+        class Raindrop {
+            constructor() {
+                this.element = document.createElement('div');
+                this.element.className = 'raindrop';
+                this.reset();
+                canvas.appendChild(this.element);
+            }
+
+            reset() {
+                this.x = Math.random() * window.innerWidth;
+                this.y = -Math.random() * window.innerHeight;
+                this.length = Math.random() * 20 + 15;
+                this.speed = Math.random() * 2 + 3;
+                this.opacity = Math.random() * 0.3 + 0.3;
+
+                this.element.style.left = this.x + 'px';
+                this.element.style.top = this.y + 'px';
+                this.element.style.height = this.length + 'px';
+                this.element.style.opacity = this.opacity;
+                this.element.style.animationDuration = this.speed + 's';
+            }
+
+            update() {
+                const transform = this.element.style.transform;
+                if (transform) {
+                    const match = transform.match(/translateY\(([^)]+)px\)/);
+                    const translateY = match ? parseFloat(match[1]) : 0;
+
+                    if (translateY >= window.innerHeight) {
+                        this.createRipple();
+                        this.reset();
+                    }
+                }
+            }
+
+            createRipple() {
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple';
+                ripple.style.left = this.x + 'px';
+                ripple.style.top = (window.innerHeight - 20) + 'px';
+                document.body.appendChild(ripple);
+
+                setTimeout(() => ripple.remove(), 1000);
+            }
+        }
+
+        // Crear gotas iniciales
+        for (let i = 0; i < numDrops; i++) {
+            setTimeout(() => {
+                raindrops.push(new Raindrop());
+            }, i * 30);
+        }
+
+        function addMoreRain() {
+            const newDropsCount = Math.min(20, 200 - raindrops.length);
+            for (let i = 0; i < newDropsCount; i++) {
+                setTimeout(() => {
+                    raindrops.push(new Raindrop());
+                }, i * 10);
+            }
+        }
+
+        function darkenBackground() {
+            darkness = Math.min(darkness + 0.08, 0.7);
+            document.body.style.filter = `brightness(${1 - darkness})`;
+        }
+
+        function animate() {
+            raindrops.forEach(drop => drop.update());
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Sistema de rayos y relámpagos
+        function createLightningBolt() {
+            const bolt = document.createElement('div');
+            bolt.className = 'bolt';
+
+            const startX = Math.random() * window.innerWidth;
+            const height = Math.random() * 300 + 200;
+            const segments = Math.floor(Math.random() * 3) + 3;
+
+            // La variable 'path' no se usa visualmente, pero la dejamos como en tu ejemplo
+            let path = `M ${startX} 0`;
+            let currentX = startX;
+            let currentY = 0;
+
+            for (let i = 0; i < segments; i++) {
+                currentX += (Math.random() - 0.5) * 80;
+                currentY += height / segments;
+                path += ` L ${currentX} ${currentY}`;
+            }
+
+            bolt.style.left = startX + 'px';
+            bolt.style.height = height + 'px';
+            bolt.style.top = '0px';
+            bolt.style.transform = `rotate(${(Math.random() - 0.5) * 20}deg)`;
+
+            document.body.appendChild(bolt);
+            bolt.classList.add('strike');
+
+            setTimeout(() => bolt.remove(), 300);
+        }
+
+        function triggerLightning() {
+            // Flash de luz
+            lightning.classList.add('flash');
+            setTimeout(() => lightning.classList.remove('flash'), 400);
+
+            // Crear 1-3 rayos
+            const numBolts = Math.floor(Math.random() * 3) + 1;
+            for (let i = 0; i < numBolts; i++) {
+                setTimeout(() => createLightningBolt(), i * 50);
+            }
+
+            // Programar siguiente rayo (cada 3-8 segundos)
+            const nextStrike = Math.random() * 5000 + 3000;
+            setTimeout(triggerLightning, nextStrike);
+        }
+
+        // Activar rayos con click y aumentar lluvia + oscurecer fondo
+        document.body.addEventListener('click', () => {
+            triggerLightning();
+            addMoreRain();
+            darkenBackground();
+        });
+
+        window.addEventListener('resize', () => {
+            raindrops.forEach(drop => {
+                if (drop.x > window.innerWidth) drop.reset();
+            });
+        });
+    });
+</script>
 </body>
 </html>

@@ -32,7 +32,7 @@
             const particle = document.createElement('div');
             particle.className = 'particle';
 
-            const size = randomBetween(6, 14);
+            const size = randomBetween(14, 30);
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             particle.style.left = `${Math.random() * 100}%`;

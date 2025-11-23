@@ -6,17 +6,34 @@ let nivelAgua = 0;
 
 // Registrar sonidos
 createjs.Sound.alternateExtensions = ["mp3"];
-createjs.Sound.registerSound("https://assets.codepen.io/21542/howler-demo-bg-music.mp3", "rain"); // URL de ejemplo, reemplazar con un sonido de lluvia real
-createjs.Sound.registerSound("https://assets.codepen.io/21542/sound-rise-01.mp3", "drop"); // URL de ejemplo, reemplazar con un sonido de gota real
-createjs.Sound.registerSound("https://assets.codepen.io/21542/sound-rise-01.mp3", "success"); // URL de ejemplo, reemplazar con un sonido de éxito
+createjs.Sound.registerSound("https://assets.codepen.io/21542/howler-demo-bg-music.mp3", "rain");
+createjs.Sound.registerSound("https://assets.codepen.io/21542/sound-rise-01.mp3", "drop");
+createjs.Sound.registerSound("https://assets.codepen.io/21542/sound-rise-01.mp3", "success");
 
-// Iniciar el sonido de lluvia automáticamente cuando la página carga
+// ---------------------------
+//  MENSAJE INICIAL TOASTIFY
+// ---------------------------
 window.addEventListener('DOMContentLoaded', () => {
-    // Reproducir sonido de lluvia en bucle
-    createjs.Sound.play("rain", {loop: -1, volume: 0.3});
+    // Mostrar mensaje inicial
+    Toastify({
+        text: "Llena el vaso de emociones",
+        duration: 3000,
+        gravity: "top",
+        position: "center",
+        backgroundColor: "linear-gradient(to right, #00FFFF, #1E90FF)",
+        style: {
+            fontSize: "1.5rem",
+            padding: "15px 25px",
+            minWidth: "300px",
+            textAlign: "center"
+        }
+    }).showToast();
+
+    // Iniciar sonido de lluvia
+    createjs.Sound.play("rain", { loop: -1, volume: 0.3 });
 });
 
-// Mover el vaso siguiendo el cursor (eje X)
+// Mover el vaso con el mouse
 document.addEventListener('mousemove', (e) => {
     const x = e.clientX;
     const vasoAncho = vaso.offsetWidth / 2;
@@ -29,14 +46,14 @@ function crearGota() {
     gota.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
     document.body.appendChild(gota);
 
-    // Posición inicial aleatoria
+    // Posición inicial
     gota.style.left = Math.random() * window.innerWidth + 'px';
 
-    // Calcular punto final (fondo del vaso)
+    // Posición final
     const vasoRect = vaso.getBoundingClientRect();
     const destinoY = vasoRect.bottom - 15;
 
-    // Animación de caída
+    // Animación
     const duracion = 2000 + Math.random() * 1000;
     gota.animate([
         { transform: 'translateY(0px)', opacity: 0.9 },
@@ -46,7 +63,7 @@ function crearGota() {
         easing: 'ease-in'
     });
 
-    // Evaluar si entra en el vaso al finalizar
+    // Evaluación al caer
     setTimeout(() => {
         const vasoRect = vaso.getBoundingClientRect();
         const gotaRect = gota.getBoundingClientRect();
@@ -61,13 +78,11 @@ function crearGota() {
             agua.style.height = nivelAgua + '%';
             agua.style.background = `linear-gradient(to top, ${gota.style.backgroundColor}, rgba(255,255,255,0.2))`;
 
-            // Reproducir sonido de gota
-            createjs.Sound.play("drop", {volume: 0.5});
+            createjs.Sound.play("drop", { volume: 0.5 });
 
             if (nivelAgua >= 100) {
                 boton.style.display = 'block';
-                // Reproducir sonido de éxito
-                createjs.Sound.play("success", {volume: 0.7});
+                createjs.Sound.play("success", { volume: 0.7 });
             }
         }
 
@@ -75,10 +90,10 @@ function crearGota() {
     }, duracion);
 }
 
-// Generar gotas continuamente
+// Generar gotas constantemente
 setInterval(crearGota, 100);
 
-// Cambiar de página
+// Ir a la siguiente página
 function siguientePagina() {
     window.location.href = "alegria_2.html";
 }

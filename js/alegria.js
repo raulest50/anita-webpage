@@ -8,14 +8,20 @@ window.addEventListener('DOMContentLoaded', () => {
     createjs.Sound.play("alegria", {loop: -1, volume: 0.3});
 });
 
+
 // Agregar efecto de sonido al botón
 document.addEventListener('DOMContentLoaded', () => {
     const botonSiguiente = document.querySelector('.boton-siguiente');
-    
+
     if (botonSiguiente) {
-        botonSiguiente.addEventListener('click', () => {
+        botonSiguiente.addEventListener('click', (event) => {
+            event.preventDefault();
+
             createjs.Sound.play("click", {volume: 0.6});
-            // El redireccionamiento ya está configurado con onclick en el HTML
+
+            setTimeout(() => {
+                window.location.href = 'tristeza_3.html';
+            }, 200);
         });
     }
 });
